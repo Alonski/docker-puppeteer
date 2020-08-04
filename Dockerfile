@@ -14,9 +14,14 @@ RUN  apt-get update \
      && apt-get update \
      && apt-get install -y google-chrome-stable --no-install-recommends \
      && apt-get install -y jq --no-install-recommends \
+     && apt-get install -y apt-transport-https ca-certificates --no-install-recommends \
      && rm -rf /var/lib/apt/lists/* \
      && wget --quiet https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/sbin/wait-for-it.sh \
      && chmod +x /usr/sbin/wait-for-it.sh
+
+RUN echo "deb [trusted=yes] https://apt.fury.io/caddy/ /" | tee -a /etc/apt/sources.list.d/caddy-fury.list \
+    && apt update \
+    && apt install caddy
 
 # Install Puppeteer under /node_modules so it's available system-wide
 ADD package.json package-lock.json /
